@@ -2,21 +2,25 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'BRANCH', defaultValue: 'master', description: '构建分支')
+        string(name: 'APP_VERSION', defaultValue: 'local', description: '版本号，如 v1.0.0')
     }
 
     stages {
-        stage('打印') {
+        stage('备份当前测试环境') {
             steps {
-                echo "将使用分支: ${params.BRANCH}"
+                bat '''
+                    if exist E:\\learn\\jenkins_learn\\test\\index.html (
+                      copy /Y E:\\learn\\jenkins_learn\\test\\index.html E:\\learn\\jenkins_learn\\backup\\index.html.prev
+                    )
+                '''
             }
         }
         stage('发布') {
             steps {
-                bat '''
+                bat """
                     copy /Y index.html E:\\learn\\jenkins_learn\\test\\index.html
-                    echo %BRANCH% > E:\\learn\\jenkins_learn\\test\\from-branch.txt
-                '''
+                    echo ${params.APP_VERSION} > E:\\learn\\jenkins_learn\\test\\version.txt
+                """
             }
         }
     }
