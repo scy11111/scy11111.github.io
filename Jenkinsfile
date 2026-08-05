@@ -17,7 +17,7 @@ pipeline {
         stage('发布到测试目录') {
             steps {
                 bat '''
-                    copy /Y index.htmlE:\\learn\\jenkins_learn\\test\\index.html
+                    copy /Y index.html E:\\learn\\jenkins_learn\\test\\index.html
                     copy /Y build-info.txt E:\\learn\\jenkins_learn\\test\\build-info.txt
                     echo %DATE% %TIME% > E:\\learn\\jenkins_learn\\test\\deployed-at.txt
                 '''
