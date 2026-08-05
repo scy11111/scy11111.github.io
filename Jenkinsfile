@@ -15,7 +15,7 @@ pipeline {
             steps {
                 bat '''
                     copy /Y index.html E:\\learn\\jenkins_learn\\test\\index.html
-                    echo branch-param-ok > E:\\learn\\jenkins_learn\\test\\from-branch.txt
+                    echo %params.BRANCH% > E:\\learn\\jenkins_learn\\test\\from-branch.txt
                 '''
             }
         }
