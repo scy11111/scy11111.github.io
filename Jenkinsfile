@@ -1,26 +1,15 @@
 pipeline {
     agent any
-
-    parameters {
-        string(name: 'APP_VERSION', defaultValue: 'local', description: '版本号，如 v1.0.0')
-    }
-
     stages {
-        stage('备份当前测试环境') {
+        stage('Info') {
             steps {
-                bat '''
-                    if exist E:\\learn\\jenkins_learn\\test\\index.html (
-                      copy /Y E:\\learn\\jenkins_learn\\test\\index.html E:\\learn\\jenkins_learn\\backup\\index.html.prev
-                    )
-                '''
+                echo "BRANCH_NAME=${env.BRANCH_NAME}"
+                bat 'git rev-parse --abbrev-ref HEAD'
             }
         }
-        stage('发布') {
+        stage('Build') {
             steps {
-                bat """
-                    copy /Y index.html E:\\learn\\jenkins_learn\\test\\index.html
-                    echo ${params.APP_VERSION} > E:\\learn\\jenkins_learn\\test\\version.txt
-                """
+                bat 'echo multibranch-ok > build-info.txt'
             }
         }
     }
