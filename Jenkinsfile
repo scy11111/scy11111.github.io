@@ -1,20 +1,40 @@
 pipeline {
     agent any
+
     stages {
         stage('构建') {
             steps {
-                bat 'echo build'
+                echo '开始构建'
+                bat 'echo build-ok > build-info.txt'
             }
         }
-        stage('确认发布') {
+        stage('可选：测失败邮件') {
             steps {
-                input message: '构建完成，是否发布到测试目录？', ok: '发布'
+                echo '若要测失败通知，把下一行注释打开'
+                // bat 'exit /b 1'
             }
         }
-        stage('发布') {
-            steps {
-                bat 'echo deploy'
-            }
+    }
+
+    post {
+        success {
+            mail to: '312689079@@qq.com',
+                 subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: """结果: SUCCESS
+任务: ${env.JOB_NAME}
+构建: #${env.BUILD_NUMBER}
+详情: ${env.BUILD_URL}
+"""
+        }
+        failure {
+            mail to: '312689079@qq.com',
+                 subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: """结果: FAILURE
+任务: ${env.JOB_NAME}
+构建: #${env.BUILD_NUMBER}
+详情: ${env.BUILD_URL}
+请打开上面链接查看 Console Output。
+"""
         }
     }
 }
