@@ -1,15 +1,19 @@
 pipeline {
     agent any
     stages {
-        stage('Info') {
+        stage('构建') {
             steps {
-                echo "BRANCH_NAME=${env.BRANCH_NAME}"
-                bat 'git rev-parse --abbrev-ref HEAD'
+                bat 'echo build'
             }
         }
-        stage('Build') {
+        stage('确认发布') {
             steps {
-                bat 'echo multibranch-ok > build-info.txt'
+                input message: '构建完成，是否发布到测试目录？', ok: '发布'
+            }
+        }
+        stage('发布') {
+            steps {
+                bat 'echo deploy'
             }
         }
     }
