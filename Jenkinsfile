@@ -1,17 +1,12 @@
+@Library('my-lib') _
+
 pipeline {
     agent any
-    options { skipDefaultCheckout() }
     stages {
-        stage('Use credentials') {
+        stage('调用共享库') {
             steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: 'github-https',
-                        usernameVariable: 'GIT_USER',
-                        passwordVariable: 'GIT_PASS'
-                    )
-                ]) {
-                    bat 'echo 已绑定用户 %GIT_USER% （请勿打印密码）'
+                script {
+                    sayHello('scy')
                 }
             }
         }
