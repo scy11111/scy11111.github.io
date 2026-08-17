@@ -36,5 +36,8 @@ pipeline {
 请打开上面链接查看 Console Output。
 """
         }
+		always {
+            archiveArtifacts artifacts: 'folder/**', fingerprint: true
+        }
     }
 }
