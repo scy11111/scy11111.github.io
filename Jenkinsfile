@@ -18,7 +18,7 @@ pipeline {
 
     post {
         success {
-            mail to: '312689079@@qq.com',
+            mail to: '312689079@qq.com',
                  subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: """结果: SUCCESS
 任务: ${env.JOB_NAME}
